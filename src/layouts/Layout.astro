@@ -1,0 +1,87 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Nacer Benallou — writing on markets, data, and inference." } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Apply stored theme before first paint to avoid flash -->
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem("theme");
+        const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", stored ?? preferred);
+      })();
+    </script>
+  </head>
+
+  <body>
+    <nav class="site-nav">
+      <div class="container">
+        <a href="/" class="nav-logo">NB</a>
+        <ul class="nav-links">
+          <li><a href="/" aria-current={Astro.url.pathname === "/" ? "page" : undefined}>Home</a></li>
+          <li><a href="/blog" aria-current={Astro.url.pathname.startsWith("/blog") ? "page" : undefined}>Blog</a></li>
+          <li><a href="/projects" aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}>Projects</a></li>
+          <li>
+            <a href="https://www.linkedin.com/in/nacer-benallou" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </li>
+          <li>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">☀︎</button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main>
+      <div class="container">
+        <slot />
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        © {new Date().getFullYear()} Nacer Benallou
+      </div>
+    </footer>
+
+    <script>
+      const btn = document.getElementById("theme-toggle")!;
+      const html = document.documentElement;
+
+      function updateIcon() {
+        btn.textContent = html.getAttribute("data-theme") === "dark" ? "☾" : "☀︎";
+      }
+
+      updateIcon();
+
+      btn.addEventListener("click", () => {
+        const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        html.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        updateIcon();
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import "../styles/global.css";
+</style>
