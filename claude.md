@@ -30,9 +30,11 @@ is the canonical context; Notion is the human-facing plan/status/content layer.
 
 ## Working conventions
 - Branch per task; open a PR; review the diff before merging to `main`.
-- When you finish a task, mark its card **Done** in the Notion Tasks DB and paste the
-  commit/PR link on the card. Best-effort — this is a solo, low-volume project, so keep
-  it simple; no sync automation in v1.
+- **Task status lifecycle in Notion Tasks DB:**
+  - Mark **In Progress** as soon as a task is picked up.
+  - Mark **In Review** when coding or decision-making work is ready to review (PR open,
+    or a decision/config change is ready for your eyes).
+  - Mark **Done** when complete; paste the commit/PR link on the card.
 - Commit messages reference the task name.
 
 ## Guardrails (already decided — do not relitigate)
