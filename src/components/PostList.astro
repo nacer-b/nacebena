@@ -1,0 +1,27 @@
+---
+import type { Post } from "../data/posts";
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="post-list">
+  {posts.map((post) => (
+    <a class="post-row" href={post.href}>
+      <div class="post-meta">
+        <span class="post-date">{post.date}</span>
+        <span class="post-arrow">→</span>
+      </div>
+      <div class="post-title">{post.title}</div>
+      {post.description && <p class="post-desc">{post.description}</p>}
+      <div class="tag-row">
+        {post.tags.map((tag) => (
+          <span class="tag-chip">{tag}</span>
+        ))}
+      </div>
+    </a>
+  ))}
+</div>

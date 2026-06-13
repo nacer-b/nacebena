@@ -1,27 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import PostList from "../../components/PostList.astro";
+import { posts } from "../../data/posts";
 ---
 
-<Layout title="Blog — Nacer Benallou" description="Writing on quantitative market making, causal inference, and product data.">
-  <div class="prose">
-    <h1 style="font-size: var(--text-4xl); margin-bottom: var(--sp-4);">Blog</h1>
-    <p style="color: var(--color-text-muted); margin-bottom: var(--sp-12);">
-      Writing on markets, data, and inference — with math.
-    </p>
+<Layout title="Blog — Nacer Benallou" description="Writing on Product Management, Fintech and Market Making.">
+  <header class="page-head">
+    <h1>Blog</h1>
+    <p>Writing on markets, product, and data — with the math worked out.</p>
+  </header>
 
-    <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--sp-8);">
-      <li>
-        <a href="/blog/foreign-exchange-liberalisation-in-morocco" style="font-size: var(--text-xl); font-weight: 600;">
-          Foreign exchange liberalisation in Morocco
-        </a>
-        <p style="margin-top: var(--sp-2); color: var(--color-text-muted); font-size: var(--text-sm);">Market making</p>
-      </li>
-      <li>
-        <a href="/blog/fostering-an-experimentation-culture-within-product-teams" style="font-size: var(--text-xl); font-weight: 600;">
-          Fostering an experimentation culture within Product teams
-        </a>
-        <p style="margin-top: var(--sp-2); color: var(--color-text-muted); font-size: var(--text-sm);">Causal inference</p>
-      </li>
-    </ul>
-  </div>
+  <PostList posts={posts} />
 </Layout>
