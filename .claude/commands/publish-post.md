@@ -21,7 +21,7 @@ if a Notion URL or unambiguous title was passed as an argument).
 Call `mcp__claude_ai_Notion__notion-fetch` on the chosen page. Extract:
 - **title** — the page Title property
 - **tags** — the Tags multi-select (map to site tag strings; "Product & Data" → "Product")
-- **date** — Target date property; format as "Mon D, YYYY" (e.g. "Jun 14, 2026")
+- **date** — Target date property; format as "Mon D, YYYY" (e.g. "Jun 14, 2026"). If not set, ask the user: "What date should appear on this post?" before continuing.
 - **description** — first paragraph of the page body (1–2 sentences, used in the post list)
 - **body** — full page content in Notion enhanced markdown
 
@@ -93,4 +93,4 @@ gh pr create --title "Publish: <title>" --body "..."
 ### Conventions (remind the user if violated)
 - Math must be written as `$...$` (inline) or `$$...$$` (display) in the Notion page body
 - Images are not yet supported (no image pipeline in v1) — flag any image blocks and skip them
-- The post should have a Target date set before publishing
+- If Target date is missing, the command will ask for it before writing any files
