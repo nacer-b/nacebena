@@ -1,13 +1,20 @@
 # /publish-post
 
-Publish a blog post from Notion to the site.
+Publish or update a blog post from Notion to the site.
 
 ## What this does
 1. Reads the Notion Content DB for entries where **Type = Blog post** and **Status = Ready**
 2. Lists them so the user can pick one (or uses the URL/title passed as an argument)
 3. Fetches the full page content from Notion
-4. Creates a branch, adds the post to `src/data/posts.ts` and writes the page file, opens a PR
-5. Marks the Notion entry **Published** and pastes the PR link on the card
+4. **Detects new vs. update:** checks whether `src/pages/blog/<slug>.md` already exists
+   - **New post:** creates the `posts.ts` entry and the page file
+   - **Update:** overwrites the page file with the new content; updates the `posts.ts` entry only if title, description, tags, or date changed
+5. Creates a branch, commits, opens a PR
+6. Marks the Notion entry **Published** and pastes the PR link on the card
+
+## Triggering an update
+Set the Notion entry back to **Status = Ready** after editing. The command detects the
+existing file and switches to update mode automatically.
 
 ## Step-by-step
 
@@ -29,11 +36,20 @@ Call `mcp__claude_ai_Notion__notion-fetch` on the chosen page. Extract:
 Lowercase the title, replace spaces with hyphens, strip non-alphanumeric characters
 (except hyphens). Example: "FX Liberalisation in Morocco" → `fx-liberalisation-in-morocco`.
 
-### 4. Create the branch
-`git checkout master && git pull && git checkout -b publish/<slug>`
+### 4. Detect new vs. update
+Check whether `src/pages/blog/<slug>.md` exists.
+- **Does not exist → new post.** Proceed with steps 5 and 6 as a create.
+- **Exists → update.** Use branch name `update/<slug>` and commit message `Update: <title>`.
+  In step 5, find and replace the existing `posts.ts` entry for this slug instead of
+  inserting. In step 6, overwrite the existing file. Tell the user what changed before
+  committing.
 
-### 5. Add to posts.ts
-Insert a new entry at the **top** of the `posts` array in `src/data/posts.ts`:
+### 5. Create the branch
+- New post: `git checkout master && git pull && git checkout -b publish/<slug>`
+- Update: `git checkout master && git pull && git checkout -b update/<slug>`
+
+### 6. Add or update posts.ts
+**New post:** insert a new entry at the **top** of the `posts` array in `src/data/posts.ts`:
 ```ts
 {
   title: "<title>",
@@ -43,9 +59,14 @@ Insert a new entry at the **top** of the `posts` array in `src/data/posts.ts`:
   tags: [<tags>],
 },
 ```
+**Update:** find the existing entry whose `href` matches `/blog/<slug>` and replace only
+the fields that changed. Leave unchanged fields as-is.
 
-### 6. Write the page file
-Create `src/pages/blog/<slug>.md` with this front matter and the converted body:
+### 7. Write the page file
+**New post:** create `src/pages/blog/<slug>.md`.
+**Update:** overwrite `src/pages/blog/<slug>.md`.
+
+Template:
 
 ```md
 ---
@@ -75,18 +96,18 @@ description: "<description>"
 - Notion dividers → `---`
 - Everything else is standard markdown — headings, bold, italic, links, lists
 
-### 7. Build check
+### 8. Build check
 Run `npm run build` and confirm it passes before committing.
 
-### 8. Commit and open PR
+### 9. Commit and open PR
 ```
 git add src/data/posts.ts src/pages/blog/<slug>.md
-git commit -m "Publish: <title>"
-git push -u origin publish/<slug>
+git commit -m "Publish: <title>"   # or "Update: <title>" for updates
+git push -u origin publish/<slug>   # or update/<slug>
 gh pr create --title "Publish: <title>" --body "..."
 ```
 
-### 9. Update Notion
+### 10. Update Notion
 - Set the Content DB entry **Status → Published**
 - Paste the PR URL into a comment or the Notes field
 
