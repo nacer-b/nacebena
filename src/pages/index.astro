@@ -1,31 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import PostList from "../components/PostList.astro";
+import { posts } from "../data/posts";
 ---
 
 <Layout title="Nacer Benallou">
-  <div class="prose">
-    <h1 style="font-size: var(--text-4xl); margin-bottom: var(--sp-4);">Nacer Benallou</h1>
-    <p style="font-size: var(--text-lg); color: var(--color-text-muted); margin-bottom: var(--sp-12);">
-      Writing on Product Management, Fintech and Market Making.
-    </p>
+  <header class="hero">
+    <h1>Writing on Product Management, Fintech and Market Making.</h1>
+    <p>Notes and essays at the intersection of markets, product, and data — with the math worked out, not hand-waved.</p>
+  </header>
 
-    <section style="margin-bottom: var(--sp-12);">
-      <h2 style="font-size: var(--text-xl); margin-bottom: var(--sp-6);">Recent posts</h2>
-      <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--sp-4);">
-        <li>
-          <a href="/blog/foreign-exchange-liberalisation-in-morocco">Foreign exchange liberalisation in Morocco</a>
-          <span style="display: block; font-size: var(--text-sm); color: var(--color-text-muted);">Market making</span>
-        </li>
-        <li>
-          <a href="/blog/fostering-an-experimentation-culture-within-product-teams">Fostering an experimentation culture within Product teams</a>
-          <span style="display: block; font-size: var(--text-sm); color: var(--color-text-muted);">Causal inference</span>
-        </li>
-      </ul>
-    </section>
+  <section>
+    <div class="section-label">Recent posts</div>
+    <PostList posts={posts} />
+  </section>
 
-    <section>
-      <h2 style="font-size: var(--text-xl); margin-bottom: var(--sp-6);">Projects</h2>
-      <p><a href="/projects">See all projects →</a></p>
-    </section>
-  </div>
+  <section style="margin-top: var(--sp-12);">
+    <div class="section-label">Projects</div>
+    <p><a href="/projects" style="font-family: var(--font-mono); font-size: var(--text-base);">See all projects →</a></p>
+  </section>
 </Layout>

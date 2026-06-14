@@ -4,7 +4,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "Nacer Benallou — writing on markets, data, and inference." } = Astro.props;
+const { title, description = "Nacer Benallou — writing on Product Management, Fintech and Market Making." } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -21,6 +21,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
 
     <!-- Apply stored theme before first paint to avoid flash -->
@@ -36,17 +40,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <body>
     <nav class="site-nav">
       <div class="container">
-        <a href="/" class="nav-logo">NB</a>
+        <a href="/" class="nav-logo">nacer<span class="mark">.</span></a>
         <ul class="nav-links">
           <li><a href="/" aria-current={Astro.url.pathname === "/" ? "page" : undefined}>Home</a></li>
           <li><a href="/blog" aria-current={Astro.url.pathname.startsWith("/blog") ? "page" : undefined}>Blog</a></li>
           <li><a href="/projects" aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}>Projects</a></li>
-          <li>
-            <a href="https://www.linkedin.com/in/nacer-benallou" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          </li>
-          <li>
-            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">☀︎</button>
-          </li>
+          <li><a href="https://www.linkedin.com/in/nacer-benallou" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">☀︎</button></li>
         </ul>
       </div>
     </nav>
@@ -59,7 +59,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <footer class="site-footer">
       <div class="container">
-        © {new Date().getFullYear()} Nacer Benallou
+        <span>© {new Date().getFullYear()} Nacer Benallou</span>
+        <span>
+          <a href="https://www.linkedin.com/in/nacer-benallou" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </span>
       </div>
     </footer>
 
